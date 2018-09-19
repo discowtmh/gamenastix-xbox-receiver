@@ -3,6 +3,8 @@
 #include "SerialTesterMainWindow.h"
 #include "ui_SerialTesterMainWindow.h"
 #include <iostream>
+#include <protocol.h>
+#include <SystemClock.h>
 
 
 SerialTesterMainWindow::SerialTesterMainWindow(QWidget *parent) :
@@ -10,6 +12,7 @@ SerialTesterMainWindow::SerialTesterMainWindow(QWidget *parent) :
     ui(new Ui::SerialTesterMainWindow)
 {
     ui->setupUi(this);
+    updateAvailablePortsComboBox(*ui->availablePortsComboBox);
 }
 
 SerialTesterMainWindow::~SerialTesterMainWindow()
@@ -78,6 +81,23 @@ void SerialTesterMainWindow::readData()
 {
     auto incomingData = serialPortHandle->readAll();
     ui->receivingTextEdit->append(incomingData);
+    Message message(incomingData.begin(), incomingData.end());
+    switch(Matcher::match(message))
+    {
+    case MessageType::ResponseModel:
+    {
+        ui->responseModelMessage->setText(incomingData);
+        ui->responseModelTimestamp->setText(QString::number(SystemClock::millis()));
+        break;
+    }
+    case MessageType::Frame:
+    {
+        ui->frameMessage->setText(incomingData);
+        ui->frameTimestamp->setText(QString::number(SystemClock::millis()));
+        break;
+    }
+
+    }
 }
 
 void SerialTesterMainWindow::resetComPort(
@@ -119,4 +139,22 @@ void SerialTesterMainWindow::sendBufferContentWithReset()
 void SerialTesterMainWindow::on_sendButton_clicked()
 {
     sendBufferContentWithReset();
+}
+
+void SerialTesterMainWindow::on_sendRequestModelMessageButton_clicked()
+{
+    static const char *requestModelMessage = "R";
+    serialPortHandle->write(requestModelMessage, 1);
+}
+
+void SerialTesterMainWindow::on_sendCalibrateNPoseMessageButton_clicked()
+{
+    static const char *calibrateNPoseMessage = "N";
+    serialPortHandle->write(calibrateNPoseMessage, 1);
+}
+
+void SerialTesterMainWindow::on_sendCalibrateSPoseMessageButton_clicked()
+{
+    static const char *calibrateSPoseMessage = "S";
+    serialPortHandle->write(calibrateSPoseMessage, 1);
 }

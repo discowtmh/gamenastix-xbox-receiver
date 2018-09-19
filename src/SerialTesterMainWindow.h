@@ -25,6 +25,12 @@ private slots:
 
   void on_sendButton_clicked();
 
+  void on_sendRequestModelMessageButton_clicked();
+
+  void on_sendCalibrateNPoseMessageButton_clicked();
+
+  void on_sendCalibrateSPoseMessageButton_clicked();
+
 private:
   void connectSerialPort(std::unique_ptr<QSerialPort> &serial);
   void connectSerialPort(std::unique_ptr<QSerialPort> &serialPortHandle,

@@ -20,17 +20,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += src/
+INCLUDEPATH += deps/treadmill-t2-driver-gamenastix-helper/include/
+
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        SerialTesterMainWindow.cpp
+        src/main.cpp \
+        src/SerialTesterMainWindow.cpp
 
 HEADERS += \
-        SerialTesterMainWindow.h
+        src/SerialTesterMainWindow.h \
+        deps/treadmill-t2-driver-gamenastix-helper/include/Protocol.h \
+        src/SystemClock.h
+
 
 FORMS += \
-        SerialTesterMainWindow.ui
+        src/SerialTesterMainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
