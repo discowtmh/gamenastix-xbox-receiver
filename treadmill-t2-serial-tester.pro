@@ -23,7 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += src/
 INCLUDEPATH += deps/treadmill-t2-driver-gamenastix-helper/include/
 
-CONFIG += c++11
+CONFIG += c++14
 
 SOURCES += \
         src/main.cpp \
@@ -33,7 +33,6 @@ HEADERS += \
         src/SerialTesterMainWindow.h \
         deps/treadmill-t2-driver-gamenastix-helper/include/Protocol.h \
         src/SystemClock.h
-
 
 FORMS += \
         src/SerialTesterMainWindow.ui
