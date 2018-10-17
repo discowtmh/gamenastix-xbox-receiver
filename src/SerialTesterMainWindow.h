@@ -4,6 +4,7 @@
 #include <QComboBox>
 #include <QMainWindow>
 #include <QSerialPort>
+#include <memory>
 
 namespace Ui {
 class SerialTesterMainWindow;
