@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
+    <width>1277</width>
     <height>695</height>
    </rect>
   </property>
@@ -14,21 +14,11 @@
    <string>SerialTesterMainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QComboBox" name="availablePortsComboBox">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>10</y>
-      <width>301</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTextEdit" name="receivingTextEdit">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>40</y>
+      <x>20</x>
+      <y>80</y>
       <width>421</width>
       <height>251</height>
      </rect>
@@ -37,41 +27,18 @@
    <widget class="QTextEdit" name="sendingTextEdit">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>40</y>
+      <x>450</x>
+      <y>80</y>
       <width>271</width>
       <height>251</height>
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="baudRateComboBox">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>10</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="currentText">
-     <string>115200</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>9600</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>115200</string>
-     </property>
-    </item>
-   </widget>
    <widget class="QPushButton" name="resetReceivingButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>300</y>
+      <x>20</x>
+      <y>340</y>
       <width>421</width>
       <height>23</height>
      </rect>
@@ -83,8 +50,8 @@
    <widget class="QPushButton" name="sendButton">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>300</y>
+      <x>450</x>
+      <y>340</y>
       <width>271</width>
       <height>23</height>
      </rect>
@@ -93,37 +60,11 @@
      <string>Send</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="connectButton">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>10</y>
-      <width>121</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Connect</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="refreshAvailablePortsButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>161</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Refresh Available Ports:</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>330</y>
+      <x>20</x>
+      <y>370</y>
       <width>701</width>
       <height>25</height>
      </rect>
@@ -155,8 +96,8 @@
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>360</y>
+      <x>20</x>
+      <y>400</y>
       <width>701</width>
       <height>241</height>
      </rect>
@@ -204,13 +145,140 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="gridLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>20</y>
+      <width>341</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="compassLayout">
+     <item row="0" column="1">
+      <widget class="QLabel" name="compassLabel">
+       <property name="text">
+        <string>compass</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="joystickPreviewLeftCanvas">
+       <property name="text">
+        <string>joystickLeftCanvas</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="joystickPreviewRightCanvas">
+       <property name="text">
+        <string>joystickRightCanvas</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>701</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>From Supervisor:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="refreshAvailablePortsButton_FromSupervisor">
+       <property name="text">
+        <string>Refresh Available Ports:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QComboBox" name="availablePortsComboBox_FromSupervisor"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QComboBox" name="baudRateComboBox_FromSupervisor">
+       <property name="currentText">
+        <string>115200</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>115200</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>To XBox Pad:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="connectButton_FromSupervisor">
+       <property name="text">
+        <string>Connect Supervisor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="refreshAvailablePortsButton_ToXBoxPad">
+       <property name="text">
+        <string>Refresh Available Ports:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QComboBox" name="availablePortsComboBox_ToXBoxPad"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QComboBox" name="baudRateComboBox_ToXBoxPad">
+       <property name="currentText">
+        <string>115200</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>115200</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QPushButton" name="connectButton_ToXBoxPad">
+       <property name="text">
+        <string>Connect XBoxPad</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLineEdit" name="compassStatus">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>150</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>802</width>
+     <width>1277</width>
      <height>21</height>
     </rect>
    </property>

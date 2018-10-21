@@ -4,6 +4,14 @@
 #include <QComboBox>
 #include <QMainWindow>
 #include <QSerialPort>
+#include <QPushButton>
+
+#include <protocol.h>
+#include "JoystickPreview.h"
+#include "Compass.h"
+
+#include <glm/glm.hpp>
+
 
 namespace Ui {
 class SerialTesterMainWindow;
@@ -17,10 +25,6 @@ public:
   ~SerialTesterMainWindow();
 
 private slots:
-  void on_refreshAvailablePortsButton_clicked();
-
-  void on_connectButton_clicked();
-
   void on_resetReceivingButton_clicked();
 
   void on_sendButton_clicked();
@@ -31,8 +35,18 @@ private slots:
 
   void on_sendCalibrateSPoseMessageButton_clicked();
 
+  void on_refreshAvailablePortsButton_FromSupervisor_clicked();
+
+  void on_refreshAvailablePortsButton_ToXBoxPad_clicked();
+
+  void on_connectButton_FromSupervisor_clicked();
+
+  void on_connectButton_ToXBoxPad_clicked();
+
 private:
-  void connectSerialPort(std::unique_ptr<QSerialPort> &serial);
+  void connectSerialPort(std::unique_ptr<QSerialPort> &serialPortHandle,
+                         QComboBox &comboBoxPort,
+                         QComboBox &comboBoxBaud);
   void connectSerialPort(std::unique_ptr<QSerialPort> &serialPortHandle,
                          QString port,
                          QSerialPort::BaudRate baudRate);
@@ -41,12 +55,23 @@ private:
   QSerialPort::BaudRate getBaudRate(int index);
   void errorOccurred(QSerialPort::SerialPortError error);
   void readData();
-  void resetComPort(std::unique_ptr<QSerialPort> &serialPortHandle);
+  void resetComPort(
+          std::unique_ptr<QSerialPort> &serial,
+          QComboBox &comboBoxPort,
+          QComboBox &comboBoxBaud,
+          QPushButton &button,
+          QString connectText,
+          QString disconnectText);
   void sendBufferContentWithReset();
-
+  void handleFrame(Message& message);
+    void sendXBoxState(glm::vec3 leftFootPosition, glm::vec3 rightFootPosition);
 private:
   Ui::SerialTesterMainWindow *ui;
-  std::unique_ptr<QSerialPort> serialPortHandle;
+  std::unique_ptr<QSerialPort> serialPortHandle_FromSupervisor;
+  std::unique_ptr<QSerialPort> serialPortHandle_ToXBoxPad;
+
+  std::unique_ptr<Compass> compass;
+  std::unique_ptr<JoystickPreview> joystickPreview;
 };
 
 #endif // SERIALTESTERMAINWINDOW_H

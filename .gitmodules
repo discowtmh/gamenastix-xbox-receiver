@@ -1,3 +1,9 @@
 [submodule "deps/treadmill-t2-driver-gamenastix-helper"]
 	path = deps/treadmill-t2-driver-gamenastix-helper
 	url = https://bitbucket.org/locomotor/treadmill-t2-driver-gamenastix-helper
+[submodule "deps/treadmill-t2-biomodel"]
+	path = deps/treadmill-t2-biomodel
+	url = https://bitbucket.org/locomotor/treadmill-t2-biomodel
+[submodule "deps/glm"]
+	path = deps/glm
+	url = https://bitbucket.org/locomotor/artifact-glm
