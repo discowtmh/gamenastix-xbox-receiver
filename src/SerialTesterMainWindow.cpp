@@ -10,6 +10,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
+#include <Protocol.h>
+#include <SystemClock.h>
+#include <iostream>
+#include <memory>
+
+char serialBuffer[1024];
+int serialBufferIndex = 0;
+
 
 SerialTesterMainWindow::SerialTesterMainWindow(QWidget *parent)
         : QMainWindow(parent)
@@ -31,6 +39,11 @@ SerialTesterMainWindow::~SerialTesterMainWindow()
     delete ui;
 }
 
+const char * getenv_or(const char * environmentVariableName, const char* defaultValue)
+{
+    const char * returnValue = getenv(environmentVariableName);
+    return returnValue ? returnValue : defaultValue;
+}
 
 void SerialTesterMainWindow::updateAvailablePortsComboBox(QComboBox &availablePortsComboBox)
 {

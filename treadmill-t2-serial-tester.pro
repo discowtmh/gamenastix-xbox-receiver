@@ -25,7 +25,7 @@ INCLUDEPATH += deps/treadmill-t2-driver-gamenastix-helper/include/
 INCLUDEPATH += deps/treadmill-t2-biomodel/include/
 INCLUDEPATH += deps/glm/
 
-CONFIG += c++11
+CONFIG += c++14
 
 QMAKE_CXXFLAGS += -DGLM_ENABLE_EXPERIMENTAL
 

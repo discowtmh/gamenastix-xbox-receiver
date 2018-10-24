@@ -1,5 +1,4 @@
-#ifndef SERIALTESTERMAINWINDOW_H
-#define SERIALTESTERMAINWINDOW_H
+#pragma once
 
 #include <QComboBox>
 #include <QMainWindow>
@@ -12,6 +11,7 @@
 
 #include <glm/glm.hpp>
 
+#include <memory>
 
 namespace Ui {
 class SerialTesterMainWindow;
@@ -74,4 +74,3 @@ private:
   std::unique_ptr<JoystickPreview> joystickPreview;
 };
 
-#endif // SERIALTESTERMAINWINDOW_H
