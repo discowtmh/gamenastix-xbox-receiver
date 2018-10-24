@@ -111,18 +111,27 @@ void SerialTesterMainWindow::connectSerialPort(
 
 namespace {
 
-glm::vec3 getRotated(glm::vec3 normal, float pitch, float roll)
+std::ostream & operator<<(std::ostream& os, const glm::vec3& v)
 {
-    return glm::rotate(glm::rotate(normal, roll, glm::vec3{0, 0, 1}), pitch, glm::vec3{1, 0, 0});
+    os << "[" << v[0] << ", " << v[1] << ", " << v[2] << "]";
+    return os;
+
+}
+
+glm::vec3 getRotated(glm::vec3 normal, float pitchDegrees, float rollDegrees)
+{
+    auto afterRoll = glm::rotate(normal, glm::radians(rollDegrees), glm::vec3{0, 0, 1});
+    auto afterPitch = glm::rotate(afterRoll, -glm::radians(pitchDegrees), glm::vec3{1, 0, 0});
+    std::cout << normal << " " << afterRoll << " " << afterPitch << std::endl;
+    return afterPitch;
 }
 
 glm::vec3 getFootPosition(float yaw, glm::vec3 offset, glm::vec3 yawPitchRollUp, glm::vec3 yawPitchRollBottom)
 {
-    glm::vec3 pelvisToKneeNPose = {0, -45, 0};
-    glm::vec3 kneeToFeetNPose = {0, -45, 0};
+    glm::vec3 pelvisToKneeNPose = {0, -0.5, 0};
+    glm::vec3 kneeToFeetNPose = {0, -0.5, 0};
 
-    return glm::rotate(
-        offset
+    return glm::rotate(offset
             + getRotated(pelvisToKneeNPose, yawPitchRollUp[PITCH_INDEX], yawPitchRollUp[ROLL_INDEX])
             + getRotated(kneeToFeetNPose, yawPitchRollBottom[PITCH_INDEX], yawPitchRollBottom[ROLL_INDEX]),
         yaw,
@@ -155,9 +164,11 @@ void SerialTesterMainWindow::handleFrame(Message &message)
                                                   model.get(Part::RIGHT_LEG_UPPER),
                                                   model.get(Part::RIGHT_LEG_LOWER));
 
-    joystickPreview->update(leftFootPosition[0], leftFootPosition[1], rightFootPosition[0], rightFootPosition[1]);
+    joystickPreview->update(leftFootPosition[0], leftFootPosition[2], rightFootPosition[0], rightFootPosition[2]);
     sendXBoxState(leftFootPosition, rightFootPosition);
 }
+
+#define MAX_XBOX_STICK (32767)
 
 void SerialTesterMainWindow::sendXBoxState(glm::vec3 leftFootPosition, glm::vec3 rightFootPosition)
 {
@@ -166,11 +177,11 @@ void SerialTesterMainWindow::sendXBoxState(glm::vec3 leftFootPosition, glm::vec3
         char buffer[256];
         int size = sprintf(buffer,
                            "%d %d %d %d %d %d\n",
-                           static_cast<int>(leftFootPosition[0]),
+                           static_cast<int>(MAX_XBOX_STICK*leftFootPosition[0]),
+                           static_cast<int>(-MAX_XBOX_STICK*leftFootPosition[2]),
                            static_cast<int>(leftFootPosition[1]),
-                           static_cast<int>(leftFootPosition[2]),
-                           static_cast<int>(rightFootPosition[0]),
-                           static_cast<int>(rightFootPosition[1]),
+                           static_cast<int>(MAX_XBOX_STICK*rightFootPosition[0]),
+                           static_cast<int>(-MAX_XBOX_STICK*rightFootPosition[2]),
                            static_cast<int>(rightFootPosition[2]));
         serialPortHandle_ToXBoxPad->write(QByteArray(static_cast<const char *>(buffer), size));
         std::cout << buffer << std::endl;
