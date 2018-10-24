@@ -142,6 +142,7 @@ void SerialTesterMainWindow::handleFrame(Message &message)
                                                   model.get(Part::RIGHT_LEG_UPPER),
                                                   model.get(Part::RIGHT_LEG_LOWER));
 
+    joystickPreview->update(leftFootPosition[0], leftFootPosition[1], rightFootPosition[0], rightFootPosition[1]);
     sendXBoxState(leftFootPosition, rightFootPosition);
 }
 
@@ -186,6 +187,7 @@ void SerialTesterMainWindow::readData()
         {
             ui->frameMessage->setText(incomingData);
             ui->frameTimestamp->setText(QString::number(SystemClock::millis()));
+            handleFrame(message);
             break;
         }
     }
@@ -263,5 +265,5 @@ void SerialTesterMainWindow::on_connectButton_FromSupervisor_clicked()
 
 void SerialTesterMainWindow::on_connectButton_ToXBoxPad_clicked()
 {
-    resetComPort(serialPortHandle_FromSupervisor, *ui->availablePortsComboBox_ToXBoxPad, *ui->baudRateComboBox_ToXBoxPad, *ui->connectButton_ToXBoxPad, "Connect XBoxPad", "Disconnect XBoxPad");
+    resetComPort(serialPortHandle_ToXBoxPad, *ui->availablePortsComboBox_ToXBoxPad, *ui->baudRateComboBox_ToXBoxPad, *ui->connectButton_ToXBoxPad, "Connect XBoxPad", "Disconnect XBoxPad");
 }
