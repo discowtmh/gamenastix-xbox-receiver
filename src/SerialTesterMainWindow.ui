@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1277</width>
-    <height>695</height>
+    <width>732</width>
+    <height>756</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SerialTesterMainWindow</string>
+   <string>Gamenastix XBox Receiver (C) DiscoWTMH </string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTextEdit" name="receivingTextEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>200</y>
       <width>421</width>
-      <height>251</height>
+      <height>141</height>
      </rect>
     </property>
    </widget>
@@ -28,9 +28,9 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>80</y>
+      <y>200</y>
       <width>271</width>
-      <height>251</height>
+      <height>141</height>
      </rect>
     </property>
    </widget>
@@ -38,7 +38,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>340</y>
+      <y>350</y>
       <width>421</width>
       <height>23</height>
      </rect>
@@ -51,7 +51,7 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>340</y>
+      <y>350</y>
       <width>271</width>
       <height>23</height>
      </rect>
@@ -64,7 +64,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>370</y>
+      <y>380</y>
       <width>701</width>
       <height>25</height>
      </rect>
@@ -97,7 +97,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>400</y>
+      <y>410</y>
       <width>701</width>
       <height>241</height>
      </rect>
@@ -148,8 +148,8 @@
    <widget class="QWidget" name="gridLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>20</y>
+      <x>210</x>
+      <y>80</y>
       <width>341</width>
       <height>111</height>
      </rect>
@@ -262,15 +262,27 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLineEdit" name="compassStatus">
+   <widget class="QWidget" name="gridLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>150</y>
-      <width>113</width>
-      <height>20</height>
+      <x>20</x>
+      <y>660</y>
+      <width>701</width>
+      <height>31</height>
      </rect>
     </property>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="compassStatus"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Compass Status:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -278,7 +290,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1277</width>
+     <width>732</width>
      <height>21</height>
     </rect>
    </property>
