@@ -284,6 +284,32 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="joystickPreviewLeftTriggerCanvas">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>80</y>
+      <width>51</width>
+      <height>109</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>leftTriggerCanvas</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="joystickPreviewRightTriggerCanvas">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>80</y>
+      <width>51</width>
+      <height>109</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>rightTriggerCanvas</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

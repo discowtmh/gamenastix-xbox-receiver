@@ -12,12 +12,16 @@
 class JoystickPreview
 {
 public:
-    JoystickPreview(QLabel& leftCanvas, QLabel& rightCanvas);
-    void update(float leftX, float leftY, float rightX, float rightY);
+    JoystickPreview(QLabel& leftCanvas, QLabel& rightCanvas, QLabel& leftTriggerCanvas, QLabel& rightTriggerCanvas);
+    void update(float leftX, float leftY, float leftZ, float rightX, float rightY, float rightZ);
 
 private:
     QLabel& leftCanvas;
     QLabel& rightCanvas;
+    QLabel& leftTriggerCanvas;
+    QLabel& rightTriggerCanvas;
     std::unique_ptr<QPainter> painter;
+    std::unique_ptr<QPainter> painterTrigger;
     std::unique_ptr<QPixmap> pixmap;
+    std::unique_ptr<QPixmap> pixmapTrigger;
 };

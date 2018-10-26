@@ -1,10 +1,16 @@
+// This file is a part of Treadmill project.
+// Copyright 2018 Disco WTMH S.A.
+
+#include <iostream>
+#include <algorithm>
+#include <memory>
+
 #include <QSerialPortInfo>
 
 #include "SerialTesterMainWindow.h"
 #include "ui_SerialTesterMainWindow.h"
 #include <SystemClock.h>
-#include <protocol.h>
-#include <iostream>
+#include <Protocol.h>
 
 #include <deepModel/Treadmill.h>
 #include <glm/glm.hpp>
@@ -12,11 +18,9 @@
 
 #include <Protocol.h>
 #include <SystemClock.h>
-#include <iostream>
-#include <memory>
 
-char serialBuffer[1024];
-int serialBufferIndex = 0;
+static char serialBuffer[1024];
+static int serialBufferIndex = 0;
 
 
 SerialTesterMainWindow::SerialTesterMainWindow(QWidget *parent)
@@ -31,7 +35,11 @@ SerialTesterMainWindow::SerialTesterMainWindow(QWidget *parent)
     compass->update(0, false);
 
     joystickPreview = std::make_unique<JoystickPreview>(*ui->joystickPreviewLeftCanvas,
-                                                        *ui->joystickPreviewRightCanvas);
+                                                        *ui->joystickPreviewRightCanvas,
+                                                        *ui->joystickPreviewLeftTriggerCanvas,
+                                                        *ui->joystickPreviewRightTriggerCanvas);
+
+    joystickPreview->update(0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 1.0F);
 }
 
 SerialTesterMainWindow::~SerialTesterMainWindow()
@@ -122,7 +130,9 @@ glm::vec3 getRotated(glm::vec3 normal, float pitchDegrees, float rollDegrees)
 {
     auto afterRoll = glm::rotate(normal, glm::radians(rollDegrees), glm::vec3{0, 0, 1});
     auto afterPitch = glm::rotate(afterRoll, -glm::radians(pitchDegrees), glm::vec3{1, 0, 0});
+#ifdef VERBOSE
     std::cout << normal << " " << afterRoll << " " << afterPitch << std::endl;
+#endif
     return afterPitch;
 }
 
@@ -164,11 +174,15 @@ void SerialTesterMainWindow::handleFrame(Message &message)
                                                   model.get(Part::RIGHT_LEG_UPPER),
                                                   model.get(Part::RIGHT_LEG_LOWER));
 
-    joystickPreview->update(leftFootPosition[0], leftFootPosition[2], rightFootPosition[0], rightFootPosition[2]);
+    leftFootPosition[1] = std::min(leftFootPosition[1], 1.0F);
+    rightFootPosition[1] = std::min(rightFootPosition[1], 1.0F);
+
+    joystickPreview->update(leftFootPosition[0], leftFootPosition[2], leftFootPosition[1], rightFootPosition[0], rightFootPosition[2], rightFootPosition[1]);
     sendXBoxState(leftFootPosition, rightFootPosition);
 }
 
 #define MAX_XBOX_STICK (32767)
+#define MAX_XBOX_TRIGGER (255)
 
 void SerialTesterMainWindow::sendXBoxState(glm::vec3 leftFootPosition, glm::vec3 rightFootPosition)
 {
@@ -179,12 +193,14 @@ void SerialTesterMainWindow::sendXBoxState(glm::vec3 leftFootPosition, glm::vec3
                            "%d %d %d %d %d %d\n",
                            static_cast<int>(MAX_XBOX_STICK*leftFootPosition[0]),
                            static_cast<int>(-MAX_XBOX_STICK*leftFootPosition[2]),
-                           static_cast<int>(leftFootPosition[1]),
+                           static_cast<int>(MAX_XBOX_TRIGGER*(1.0F-leftFootPosition[1])),
                            static_cast<int>(MAX_XBOX_STICK*rightFootPosition[0]),
                            static_cast<int>(-MAX_XBOX_STICK*rightFootPosition[2]),
-                           static_cast<int>(rightFootPosition[2]));
+                           static_cast<int>(MAX_XBOX_TRIGGER*(1.0F-rightFootPosition[1])));
         serialPortHandle_ToXBoxPad->write(QByteArray(static_cast<const char *>(buffer), size));
+#ifdef VERBOSE
         std::cout << buffer << std::endl;
+#endif
     }
 }
 

@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include <fstream>
 #include <memory>
 
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
 #include <QPixmap>
+
 
 class Compass {
 public:

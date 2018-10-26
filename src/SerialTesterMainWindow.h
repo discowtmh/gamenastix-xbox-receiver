@@ -1,17 +1,22 @@
+// This file is a part of Treadmill project.
+// Copyright 2018 Disco WTMH S.A.
+
 #pragma once
+
+#include <memory>
 
 #include <QComboBox>
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QPushButton>
 
-#include <protocol.h>
+#include <glm/glm.hpp>
+
+#include <Protocol.h>
+
 #include "JoystickPreview.h"
 #include "Compass.h"
 
-#include <glm/glm.hpp>
-
-#include <memory>
 
 namespace Ui {
 class SerialTesterMainWindow;
