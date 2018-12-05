@@ -136,7 +136,7 @@ glm::vec3 getRotated(glm::vec3 normal, float pitchDegrees, float rollDegrees)
     return afterPitch;
 }
 
-glm::vec3 getFootPosition(float yaw, glm::vec3 offset, glm::vec3 yawPitchRollUp, glm::vec3 yawPitchRollBottom)
+glm::vec3 getFootPosition(float yawDegrees, glm::vec3 offset, glm::vec3 yawPitchRollUp, glm::vec3 yawPitchRollBottom)
 {
     glm::vec3 pelvisToKneeNPose = {0, -0.5, 0};
     glm::vec3 kneeToFeetNPose = {0, -0.5, 0};
@@ -144,13 +144,13 @@ glm::vec3 getFootPosition(float yaw, glm::vec3 offset, glm::vec3 yawPitchRollUp,
     return glm::rotate(offset
             + getRotated(pelvisToKneeNPose, yawPitchRollUp[PITCH_INDEX], yawPitchRollUp[ROLL_INDEX])
             + getRotated(kneeToFeetNPose, yawPitchRollBottom[PITCH_INDEX], yawPitchRollBottom[ROLL_INDEX]),
-        yaw,
+        glm::radians(yawDegrees),
         glm::vec3{0, 1, 0});
 }
 
-glm::vec3 getFootPosition(float yaw, const std::vector<float> &offset, const std::vector<float> &yawPitchRollUp, const std::vector<float> &yawPitchRollBottom)
+glm::vec3 getFootPosition(float yawDegrees, const std::vector<float> &offset, const std::vector<float> &yawPitchRollUp, const std::vector<float> &yawPitchRollBottom)
 {
-    return getFootPosition(yaw,
+    return getFootPosition(yawDegrees,
                            glm::vec3{offset[0], offset[1], offset[2]},
                            glm::vec3{yawPitchRollUp[0], yawPitchRollUp[1], yawPitchRollUp[2]},
                            glm::vec3{yawPitchRollBottom[0], yawPitchRollBottom[1], yawPitchRollBottom[2]});
@@ -162,14 +162,14 @@ void SerialTesterMainWindow::handleFrame(Message &message)
     static biomodel::deepModel::Model model = biomodel::deepModel::Treadmill().getModel();
     model.update(message);
 
-    float modelYaw = model.get(Part::CRANE)[YAW_INDEX];
+    float modelYawDegrees = model.get(Part::CRANE)[YAW_INDEX];
 
-    glm::vec3 leftFootPosition = getFootPosition(modelYaw,
+    glm::vec3 leftFootPosition = getFootPosition(modelYawDegrees,
                                                  model.get(Part::LEFT_LEG_OFFSET),
                                                  model.get(Part::LEFT_LEG_UPPER),
                                                  model.get(Part::LEFT_LEG_LOWER));
 
-    glm::vec3 rightFootPosition = getFootPosition(modelYaw,
+    glm::vec3 rightFootPosition = getFootPosition(modelYawDegrees,
                                                   model.get(Part::RIGHT_LEG_OFFSET),
                                                   model.get(Part::RIGHT_LEG_UPPER),
                                                   model.get(Part::RIGHT_LEG_LOWER));
@@ -178,6 +178,8 @@ void SerialTesterMainWindow::handleFrame(Message &message)
     rightFootPosition[1] = std::min(rightFootPosition[1], 1.0F);
 
     joystickPreview->update(leftFootPosition[0], leftFootPosition[2], leftFootPosition[1], rightFootPosition[0], rightFootPosition[2], rightFootPosition[1]);
+    compass->update(static_cast<uint16_t>(modelYawDegrees), true);
+
     sendXBoxState(leftFootPosition, rightFootPosition);
 }
 
